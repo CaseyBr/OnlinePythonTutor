@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+const int MAX = 20;
+const int MAX_score = 2;
+void enterStudents(int &count, char name[MAX][MAX], float score[MAX][MAX_score]);
+void calculateAverages(int count, float score[][MAX_score], float average[]);
+void calculateGrades(int count, float average[], char grade[]);
+void reportGrades(int count,char name[MAX][MAX], float average[], char grade[]);
+
+int main()
+{
+    int count = 0;
+    char name[MAX][MAX];
+    float average[MAX];
+    float score[MAX][MAX_score];
+    char grade[MAX];
+    
+    enterStudents(count, name, score);
+    calculateAverages(count, score, average);
+    calculateGrades(count, average, grade);
+    reportGrades(count, name, average, grade);
+    return 0;
+}
+void enterStudents(int &count, char name[MAX][MAX], float score[MAX][MAX_score])
+{
+    while(count <= MAX)
+    {
+        cout << "Enter the student's name: ";
+        cin.ignore(cin.rdbuf()->in_avail());
+        cin.getline(name[count], 16);
+        cin.clear();
+        cin.ignore(cin.rdbuf()->in_avail());
+        cin >> score[count][0];
+        cin >> score[count][1];
+        cin >> score[count][2];
+        if(name[count][0] == '\0')
+        {
+            break;
+        }
+        count ++;
+    }
+}
+void calculateAverages(int count, float score[][MAX_score], float average[])
+{
+
+    for (int r = 0; r <= count; r++)
+    {
+        average[r] = 0;
+        for (int c = 0; c <= MAX_score; c++)
+        {
+            average[r] += score[r][c];
+        }
+        average[r] /= MAX_score;
+    }
+}
+void calculateGrades(int count, float average[], char grade[])
+{
+    for (int r = 0; r != count; r++)
+    {
+        if (average[r] >= 90)
+        {
+            grade[r] = 'A';
+        }
+        else if (average[r] >= 80)
+        {
+            grade[r] = 'B';
+        }
+        else if (average[r] >= 70)
+        {
+            grade[r] = 'C';
+        }
+        else if (average[r] >= 60)
+        {
+            grade[r] = 'D';
+        }
+        else
+        {
+            grade[r] = 'F';
+        }
+    }
+}
+void reportGrades( int count,char name[MAX][MAX], float average[], char grade[])
+{
+    cout<< setw(MAX)
+    << left
+    <<"NAME"
+    << setw(5)
+    << left
+    << "AVG"
+    << "GRADE\n";
+    for(int i= 0; i< count; i++)
+    {
+        cout << setw(MAX)
+        << setprecision (1)
+        << left
+        << name[i]
+        << setw(5)
+        << left
+        << fixed
+        << average[i]
+        << left
+        << grade[i]
+        << "\n";
+    }
+}
